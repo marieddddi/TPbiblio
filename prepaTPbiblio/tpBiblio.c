@@ -46,6 +46,8 @@ int main()
 	T_Aut auteur;
 	int a;
 	int i;
+	T_Emp nom;
+	T_Code code;
 	T_livre livre;
 
 	do
@@ -65,41 +67,30 @@ int main()
 					 printf("La bibliotheque est vide");
 					 break;
 					
-			case 3 : printf("quel titre ?\n");
-					 i=0;
-					 //essayer avce lire chaine !!!
-					 fgets(titre,MAX_TITRE,stdin);
-					 while(titre[i]!='\n') i++;
-					 titre[i]='\0';
+			case 3 : lireChaine("quel titre ?\n", titre, MAX_TITRE );
 					 a=rechercherLivre(&B,titre);
 					 if(a==0)printf("le livre n'y est pas\n");
 					 else printf("le livre est présent %d fois \n",a);
 					 break;
 					
-			case 4 : printf("quel auteur ?\n");
-					 i=0;
-					 //essayer avec lirechaine
-					 fgets(auteur,K_MaxAut,stdin);
-					 while(auteur[i]!='\n') i++;
-					 auteur[i]='\0';
+			case 4 : lireChaine("quel auteur ?\n", auteur, K_MaxAut );
 					 AffRechAuteur(&B,auteur);
 					 break;
 					
-			case 5 : printf("quel auteur souhaitez-vous supprimer ?\n");
-					 i=0;
-					  //essayer avec lirechaine
-					 fgets(livre.auteur,K_MaxAut,stdin);
-					 while(livre.auteur[i]!='\n') i++;
-					 livre.auteur[i]='\0';
-				 	 printf("quel titre de cet auteur souhaitez-vous supprimer ? ?\n");
-				  	 i=0;
-				  	  //essayer avec lirechaine
-					 fgets(livre.titre,MAX_TITRE,stdin);
-					 while(livre.titre[i]!='\n') i++;
-					 livre.titre[i]='\0';
+			case 5 : lireChaine("quel auteur souhaitez-vous supprimer ?\n", livre.auteur, K_MaxAut );
+					 lireChaine("quel titre de cet auteur souhaitez-vous supprimer ?\n", livre.titre, MAX_TITRE );
 					 a=SuppLivre(&B,&livre);
 					 if(a==0)printf("le livre n'y est pas\n");
-					 else printf("le livre est bien supprimé");
+					 else printf("le livre est bien supprimé\n");
+					 break;	
+					 
+			case 6 : lireChaine("quel titre souhaitez vous emprunter ?", livre.titre, MAX_TITRE);	
+					 lireChaine("quel est son code ?", livre.code, MAX_CODE);
+					 printf("quel est votre nom ?");
+					 lire(nom, K_MaxEmp);			
+					 a=Emprunter(&B,&livre,&nom);
+					 if(a==0)printf("le livre est déjà emprunté \n");
+					 else printf("le livre est bien emprunté par vous \n");
 					 break;			
 			
 		}

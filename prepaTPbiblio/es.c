@@ -3,23 +3,23 @@
 
 char *lire(char* lachaine,int nbMAXcaracAsaisir)
 {
-	char car;
-	int i=0,nbesp=0;
-	do
-	{
-		car=getchar();
-		//printf("\n>>%c",car);
-		if (car!='\n')
+char car;
+int i=0,nbesp=0;
+do
+{
+ 	car=getchar();
+	//printf("\n>>%c",car);
+	if (car!='\n')
 		{	
-			if (car!=' ' ) //ou if (car!=32)
-				{lachaine[i++]=car;nbesp=0;}
-			else
-			{ // c'est un espace
-				if (i!=0 && nbesp==0)
-				{	
-					lachaine[i++]=car;nbesp++;	
-				}
-			}
+	 	if (car!=' ' ) //ou if (car!=32)
+	 		{lachaine[i++]=car;nbesp=0;}
+	 	else
+	 	{ // c'est un espace
+	 	 if (i!=0 && nbesp==0)
+	 	 	{	
+	 	 	lachaine[i++]=car;nbesp++;	
+	 	 	}
+	 	}
 		}
  }
 while(car!='\n' && i<nbMAXcaracAsaisir);

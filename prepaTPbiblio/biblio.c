@@ -88,20 +88,24 @@ int positionLivre (const T_Bibliotheque *ptrB, T_Titre titre)
     }
     return -1;
 	
-
+}
 	
 	
-int Emprunter (T_Bibliotheque  *ptrB, T_livre *livre, T_Emp *date)
+int Emprunter (T_Bibliotheque  *ptrB, T_livre *livre, T_Emp *nom)
 {
-    if (positionLivre(&ptrB,livre->titre)!=0)
+    int i;
+    if (positionLivre(&ptrB,livre->titre)!=-1)
     {
-        if ((strlen(livre->emprunteur)==0)&&(strcmp(livre->code,ptrB->etagere[i].code)==0))
+        if (strlen(livre->emprunteur)==0)
         {
-            strcpy(livre->emprunteur,date);
-            return 1;
-            //rechercher d'abord la position du livre, verif pas emprunteur deja, regarder si meme code car peut avoir 2 meme livre
-            //copier date dans la case emprunteur du livre 
-        
+            for (i=0;i<ptrB -> nbLivres;i++)
+            {
+                if (strcmp(livre->code,ptrB->etagere[i].code)==0) 
+                {
+                    strcpy(livre->emprunteur,nom);
+                    return 1;
+                }
+            }
         }
     }
     return 0;
