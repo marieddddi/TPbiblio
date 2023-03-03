@@ -1,3 +1,5 @@
+
+
 // TP GESTION D'UNE BIBLIOTHEQUE 
 #include "biblio.h"
 
@@ -45,11 +47,12 @@ int main()
 	T_Titre titre;
 	T_Aut auteur;
 	int a;
-	int i;
 	T_Emp nom;
-	T_Code code;
 	T_livre livre;
-
+	
+	
+	
+	
 	do
 	{
 		chargement(&B);
@@ -87,11 +90,29 @@ int main()
 			case 6 : lireChaine("quel titre souhaitez vous emprunter ?", livre.titre, MAX_TITRE);	
 					 lireChaine("quel est son code ?", livre.code, MAX_CODE);
 					 printf("quel est votre nom ?");
-					 lire(nom, K_MaxEmp);			
-					 a=Emprunter(&B,&livre,&nom);
+					 lire(nom, MAX);	
+					 printf("nom:%s",nom);
+					 afficherChaine("1:",livre.emprunteur);
+					 
+					 a=Emprunter(&B,&livre,nom);
+					 printf("valeur: %d\n",a);
 					 if(a==0)printf("le livre est déjà emprunté \n");
-					 else printf("le livre est bien emprunté par vous \n");
+					 else printf("le livre est bien emprunté para vous \n");
+					 break;	
+					 
+		    case 7 : lireChaine("quel titre souhaitez vous rendre ?", livre.titre, MAX_TITRE);	
+					 lireChaine("quel est son code ?", livre.code, MAX_CODE);
+					 printf("quel est votre nom ?");
+					
+					 lire(nom, MAX);	
+					 printf("%s",nom);
+					 		
+					 a=RendreLivre(&B,&livre,&nom);
+					 printf("%d",a);
+					 if(a==0)printf("le livre n'est pas à vous\n");
+					 else printf("le livre est bien rendu merci \n");
 					 break;			
+			
 			
 		}
 		sauvegarde(&B);
@@ -101,3 +122,4 @@ int main()
 	return 0;
 
 }
+

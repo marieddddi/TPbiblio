@@ -120,7 +120,7 @@ int positionLivre (const T_Bibliotheque *ptrB, T_Titre titre);
 /* Paramètres en entree : COMPLETER	   */
 /* Paramètres en sortie : COMPLETER   			   */
 /***************************************************************************/
-int Emprunter (T_Bibliotheque  *ptrB, T_livre *livre, T_Emp *nom);
-
+int Emprunter (T_Bibliotheque  *ptrB, T_livre *livre, T_Emp nom);
+int RendreLivre (T_Bibliotheque  *ptrB, T_livre *livre, const T_Emp *nom);
 
 #endif

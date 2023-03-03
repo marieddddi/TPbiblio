@@ -1,3 +1,5 @@
+
+
 #include "biblio.h"
 
 
@@ -91,18 +93,52 @@ int positionLivre (const T_Bibliotheque *ptrB, T_Titre titre)
 }
 	
 	
-int Emprunter (T_Bibliotheque  *ptrB, T_livre *livre, T_Emp *nom)
+int Emprunter (T_Bibliotheque  *ptrB, T_livre *livre, T_Emp nom)
 {
     int i;
-    if (positionLivre(&ptrB,livre->titre)!=-1)
+    strcpy(livre->auteur,"inconnu") ;
+    if (positionLivre(ptrB,livre->titre)!=-1)
     {
-        if (strlen(livre->emprunteur)==0)
+        printf("emprunteur length: %d\n", strlen(livre->emprunteur));
+printf("emprunteur: %s\n", livre->emprunteur);
+
+        if (strcmp(livre->emprunteur, "") == 0)
+
         {
+			printf("emprunteur length: %d\n", strlen(livre->emprunteur));
+printf("emprunteur: %s\n", livre->emprunteur);
+
+			printf("ok1\n");
+          
             for (i=0;i<ptrB -> nbLivres;i++)
             {
-                if (strcmp(livre->code,ptrB->etagere[i].code)==0) 
+				printf("ok2\n");
+                if ((strcmp(livre->code,ptrB->etagere[i].code)==0) && (strcmp(livre->titre,ptrB->etagere[i].titre)==0))
                 {
+					printf("ok3\n");
+					printf("%s",livre->emprunteur);
                     strcpy(livre->emprunteur,nom);
+                    printf("%s",livre->emprunteur);
+                    return 1;
+                }
+            }
+        }
+    }
+    return 0;
+}
+
+int RendreLivre (T_Bibliotheque  *ptrB, T_livre *livre, const T_Emp *nom)
+{
+    int i;
+    if (positionLivre(ptrB,livre->titre)!=-1)
+    {
+        for (i=0;i<ptrB -> nbLivres;i++)
+        {
+            if ((strcmp(livre->code,ptrB->etagere[i].code)==0) && (strcmp(livre->titre,ptrB->etagere[i].titre)==0)) 
+            {
+                if(strcmp(*nom,ptrB->etagere[i].emprunteur)==0)
+                {
+                    strcpy(livre->emprunteur,"\0");
                     return 1;
                 }
             }
@@ -155,6 +191,3 @@ void chargement(T_Bibliotheque *ptrB)
 	else puts("ECHEC DE CHARGEMENT  !!!!!  ");
 
 }
-
-
-

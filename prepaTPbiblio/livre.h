@@ -6,6 +6,7 @@
 # define MAX 20
 # define MAX_TITRE 60
 # define MAX_CODE 6
+# define MAXZ 132
 
 # define K_MaxTit MAX_TITRE
 # define K_MaxAut MAX
@@ -23,16 +24,16 @@ typedef int T_annee;
 
 // à utiliser pour gérer l'emprunt d'un livre
 /*
-typedef enum T_Jour {lu,ma,me,je,ve,sa,di};
-typedef enum T_Mois {janv,fevr,mars,avri,mai,juin,juil,aout,sept,octo,nove,dece};
+//typedef enum T_Jour {lu,ma,me,je,ve,sa,di};
+//typedef enum T_Mois {janv,fevr,mars,avri,mai,juin,juil,aout,sept,octo,nove,dece};
 
 typedef struct
 {
 char nomemprunteur[50];
-T_Jour lejour;
-int ledate;
-T_Mois lemois;
-int lannee
+//T_Jour lejour;
+//int ledate;
+//T_Mois lemois;
+//int lannee;
 }T_Emp ;
 */
 
@@ -59,3 +60,6 @@ void afficherLivre(const T_livre *ptrL);
 
 
 #endif //fin de compilation conditionnelle
+
+
+

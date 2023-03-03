@@ -1,3 +1,4 @@
+
 #include "livre.h"
 
 
@@ -11,6 +12,7 @@ scanf("%d",&(ptrL->annee));
 getchar();
 lireChaine("EDITEUR :", (ptrL->editeur), K_MaxEdit);
 strcpy(ptrL->emprunteur,"\0");
+
 }
 
 
@@ -29,9 +31,6 @@ printf(" - ");
 afficherChaine("EMPRUNTEUR :", (ptrL->emprunteur));
 printf("\n");
 }
-
-
-
 
 
 
