@@ -4,7 +4,7 @@
 
 #include "livre.h"
 
-#define CAPACITE_BIBLIO 5 // nb maximum de livres ds la bibliotheque
+#define CAPACITE_BIBLIO 10 // nb maximum de livres ds la bibliotheque
 
 typedef  T_livre 	T_tabloDeLivres[CAPACITE_BIBLIO];
 
@@ -116,11 +116,72 @@ int positionLivre (const T_Bibliotheque *ptrB, T_Titre titre);
 /***************************************************************************/
 /* NOM FONCTION : Emprunter												   */
 /* DESCRIPTION : permet d'emprunter un livre de la bibliotheque	           */
-/* Retourne : COMPLETER												   	   */
-/* Paramètres en entree : COMPLETER	   */
-/* Paramètres en sortie : COMPLETER   			   */
+/* Retourne : 1 si le livre a pu etre emprunter ou 0 sinon				   */
+/* Paramètres en entree : ptrB: pointeur sur la bibliotheque, 		       */
+/* livre: pointeur sur le livre qu'on veut emprunter, nom: pointeur        */
+/*sur le nom de l'emprunteur	   										   */
+/* Paramètres en sortie : 1 ou 0 indiquant si l'emprunt est possible ou non*/
 /***************************************************************************/
-int Emprunter (T_Bibliotheque  *ptrB, T_livre *livre, T_Emp nom);
+int Emprunter (T_Bibliotheque  *ptrB, T_livre *livre,  T_Emp *nom);
+
+/***************************************************************************/
+/* NOM FONCTION : RendreLivre											   */
+/* DESCRIPTION : permet de rendre un livre de la bibliotheque	           */
+/* Retourne : 1 si le livre a été rendu ou 0 sinon					   	   */
+/* Paramètres en entree : ptrB: pointeur sur la bibliotheque, 		       */
+/* livre: pointeur sur le livre qu'on veut emprunter, nom: pointeur        */
+/*sur le nom de l'emprunteur	  										   */
+/* Paramètres en sortie : 1 ou 0 indiquant si le rendu est possible ou non */
+/***************************************************************************/
 int RendreLivre (T_Bibliotheque  *ptrB, T_livre *livre, const T_Emp *nom);
+
+/***************************************************************************/
+/* NOM FONCTION : TriTitre												   */
+/* DESCRIPTION : permet de trier une bibliothèque par titre 	           */
+/* Retourne :												   	   		   */
+/* Paramètres en entree : ptrB: pointeur sur la bibliotheque, 		       */
+/* Paramètres en sortie :												   */
+/***************************************************************************/
+void TriTitre(T_Bibliotheque  *ptrB);
+
+/***************************************************************************/
+/* NOM FONCTION : TriAut												   */
+/* DESCRIPTION : permet de trier une bibliothèque par auteur 	           */
+/* Retourne :												   	   		   */
+/* Paramètres en entree : ptrB: pointeur sur la bibliotheque, 		       */
+/* Paramètres en sortie :												   */
+/***************************************************************************/
+void TriAut(T_Bibliotheque  *ptrB);
+
+/***************************************************************************/
+/* NOM FONCTION : TriAnnee												   */
+/* DESCRIPTION : permet de trier une bibliothèque par année 	           */
+/* Retourne :												   	   		   */
+/* Paramètres en entree : ptrB: pointeur sur la bibliotheque, 		       */
+/* Paramètres en sortie :												   */
+/***************************************************************************/
+void TriAnnee(T_Bibliotheque  *ptrB);
+
+/***************************************************************************/
+/* NOM FONCTION : listerLivreDispo										   */
+/* DESCRIPTION : permet de lister les livres disponibles 	               */
+/* Retourne :												   	   		   */
+/* Paramètres en entree : ptrB: pointeur sur la bibliotheque, 		       */
+/* Paramètres en sortie :												   */
+/***************************************************************************/
+void listerLivreDispo (T_Bibliotheque  *ptrB);
+
+
+void listerRetard(T_Bibliotheque  *ptrB);
+
+/***************************************************************************/
+/* NOM FONCTION : PossibiliteLivre										   */
+/* DESCRIPTION : permet de savoir si on peut encore emprunter des livres   */
+/* dans la possibilité de 5 livres par personnes.  	                       */
+/* Retourne : -1 si la personne a deja 5 livres												   	   		   */
+/* Paramètres en entree : ptrB: pointeur sur la bibliotheque, 		       */
+/* Paramètres en sortie :												   */
+/***************************************************************************/
+int NbLivresEmpruntes(T_Bibliotheque  *ptrB,const T_Emp *nom );
 
 #endif

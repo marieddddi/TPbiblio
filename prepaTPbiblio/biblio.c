@@ -1,7 +1,6 @@
 
-
 #include "biblio.h"
-
+#include <time.h>
 
 void init (T_Bibliotheque *ptrB)
 {
@@ -93,34 +92,23 @@ int positionLivre (const T_Bibliotheque *ptrB, T_Titre titre)
 }
 	
 	
-int Emprunter (T_Bibliotheque  *ptrB, T_livre *livre, T_Emp nom)
+int Emprunter (T_Bibliotheque  *ptrB, T_livre *livre, T_Emp *emp)
 {
     int i;
-    strcpy(livre->auteur,"inconnu") ;
+    time_t secondes;
+    
     if (positionLivre(ptrB,livre->titre)!=-1)
     {
-        printf("emprunteur length: %d\n", strlen(livre->emprunteur));
-printf("emprunteur: %s\n", livre->emprunteur);
-
-        if (strcmp(livre->emprunteur, "") == 0)
-
+        for (i=0;i<ptrB -> nbLivres;i++)
         {
-			printf("emprunteur length: %d\n", strlen(livre->emprunteur));
-printf("emprunteur: %s\n", livre->emprunteur);
-
-			printf("ok1\n");
-          
-            for (i=0;i<ptrB -> nbLivres;i++)
+            if ((strcmp(livre->code,ptrB->etagere[i].code)==0) && (strcmp(livre->titre,ptrB->etagere[i].titre)==0)&&(strcmp(ptrB->etagere[i].emprunteur.nomemprunteur,"") == 0))
             {
-				printf("ok2\n");
-                if ((strcmp(livre->code,ptrB->etagere[i].code)==0) && (strcmp(livre->titre,ptrB->etagere[i].titre)==0))
-                {
-					printf("ok3\n");
-					printf("%s",livre->emprunteur);
-                    strcpy(livre->emprunteur,nom);
-                    printf("%s",livre->emprunteur);
-                    return 1;
-                }
+                strcpy(ptrB->etagere[i].emprunteur.nomemprunteur,emp->nomemprunteur);
+                lireDateSysteme(&(ptrB->etagere[i].emprunteur));
+                ptrB->etagere[i].emprunteur.temps=(double)time(NULL);
+                ptrB->etagere[i].emprunteur.temps=(double)time(&secondes) ;
+                
+                return 1;
             }
         }
     }
@@ -130,15 +118,19 @@ printf("emprunteur: %s\n", livre->emprunteur);
 int RendreLivre (T_Bibliotheque  *ptrB, T_livre *livre, const T_Emp *nom)
 {
     int i;
+    //on regarde si le livre est bien présent dans la bibliothé
     if (positionLivre(ptrB,livre->titre)!=-1)
     {
         for (i=0;i<ptrB -> nbLivres;i++)
         {
+            //on regarde si le code et le titre correspondent bien
             if ((strcmp(livre->code,ptrB->etagere[i].code)==0) && (strcmp(livre->titre,ptrB->etagere[i].titre)==0)) 
             {
-                if(strcmp(*nom,ptrB->etagere[i].emprunteur)==0)
+                //si le champ emprunteur est vide, on peut l'emprunter
+                if(strcmp(nom->nomemprunteur,ptrB->etagere[i].emprunteur.nomemprunteur)==0)
                 {
-                    strcpy(livre->emprunteur,"\0");
+
+                    strcpy(ptrB->etagere[i].emprunteur.nomemprunteur,"\0");
                     return 1;
                 }
             }
@@ -147,7 +139,104 @@ int RendreLivre (T_Bibliotheque  *ptrB, T_livre *livre, const T_Emp *nom)
     return 0;
 }
 
+void TriTitre(T_Bibliotheque  *ptrB)
+{
+    int j,i;
+    T_livre aux;
+    //technique du tri à bulles
+    for(j=0;j<ptrB -> nbLivres;j++)
+	{
+		for(i=0;i<ptrB -> nbLivres -1;i++)
+		{
+			if(strcmp(ptrB->etagere[i].titre,ptrB->etagere[i+1].titre)>0)
+			{
+				aux=ptrB->etagere[i];
+				ptrB->etagere[i]=ptrB->etagere[i+1];
+				ptrB->etagere[i+1]=aux;
+			}
+		}
+	}
+}
 
+void TriAut(T_Bibliotheque  *ptrB)
+{
+    int j,i;
+    T_livre aux;
+    //technique du tri à bulles
+    for(j=0;j<ptrB -> nbLivres;j++)
+	{
+		for(i=0;i<ptrB -> nbLivres -1;i++)
+		{
+			if(strcmp(ptrB->etagere[i].auteur,ptrB->etagere[i+1].auteur)>0)
+			{
+				aux=ptrB->etagere[i];
+				ptrB->etagere[i]=ptrB->etagere[i+1];
+				ptrB->etagere[i+1]=aux;
+			}
+		}
+	}
+}
+
+void TriAnnee(T_Bibliotheque  *ptrB)
+{
+    int j,i;
+    T_livre aux;
+    //technique du tri à bulles
+    for(j=0;j<ptrB -> nbLivres;j++)
+	{
+		for(i=0;i<ptrB -> nbLivres -1;i++)
+		{
+			if(ptrB->etagere[i].annee>ptrB->etagere[i+1].annee)
+			{
+				aux=ptrB->etagere[i];
+				ptrB->etagere[i]=ptrB->etagere[i+1];
+				ptrB->etagere[i+1]=aux;
+			}
+		}
+	}
+}
+
+
+
+void listerLivreDispo (T_Bibliotheque  *ptrB) 
+{
+    int i;   
+    for (i=0 ; i<ptrB->nbLivres ; i++)
+    {
+        //on regarde s'il n'y a pas de nom dans emprunteur cad qu'il est vide
+        if (strlen(ptrB->etagere[i].emprunteur.nomemprunteur)==0) afficherLivre(&(ptrB->etagere[i])) ;
+    }
+}
+
+void listerRetard(T_Bibliotheque  *ptrB)
+{
+    int i;
+    time_t secondes;
+    time_t vrai ;
+    for (i=0 ; i<(ptrB->nbLivres) ; i++)
+    {
+        if (strcmp(ptrB->etagere[i].emprunteur.nomemprunteur,"")!=0)
+        {
+        vrai=(double)time(NULL);
+        vrai=(double)time(&secondes);
+        if ((vrai - ptrB->etagere[i].emprunteur.temps)>60) afficherLivre(&(ptrB->etagere[i])) ;
+    }
+    }
+}
+
+
+int NbLivresEmpruntes(T_Bibliotheque  *ptrB,const T_Emp *nom )
+{
+    int i;
+    //compteur
+    int a=0;
+    for (i=0;i<ptrB -> nbLivres;i++)
+    {
+        //on regarde si le nom correspond bien
+        if(strcmp(nom->nomemprunteur,ptrB->etagere[i].emprunteur.nomemprunteur)==0) a++;
+    }
+    return a;
+}
 
 void sauvegarde(T_Bibliotheque *ptrB)
 {
@@ -191,3 +280,4 @@ void chargement(T_Bibliotheque *ptrB)
 	else puts("ECHEC DE CHARGEMENT  !!!!!  ");
 
 }
+

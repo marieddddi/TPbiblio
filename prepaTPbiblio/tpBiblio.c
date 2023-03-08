@@ -1,5 +1,4 @@
 
-
 // TP GESTION D'UNE BIBLIOTHEQUE 
 #include "biblio.h"
 
@@ -27,9 +26,9 @@ int menu()
 
 // si les 5 choix (6-10) sont bien codés, changez le type T_Emp et remplacez-le par la structure T_Emp visible dans livre.h
 // vous pourrez alors faire les menus 11,12,etc...
-// printf("\n 11- lister les livres disponibles "); 
-// printf("\n 12 - lister les emprunts en retard "); //on suppose qu'un emprunt dure 7 jours.
-// printf("\n 13 - ... imaginez vous même vos propres fonctionnalités ")
+printf("\n 11- lister les livres disponibles "); 
+printf("\n 12 - lister les emprunts en retard "); //on suppose qu'un emprunt dure 7 jours.
+printf("\n 13 - combien de livres une personne a emprunté ?");
 
 	printf("\n 0 - QUITTER");
 	printf("\n Votre choix : ");
@@ -47,7 +46,7 @@ int main()
 	T_Titre titre;
 	T_Aut auteur;
 	int a;
-	T_Emp nom;
+	T_Emp emp;
 	T_livre livre;
 	
 	
@@ -60,59 +59,94 @@ int main()
 		switch(chx)
 		{
 			
-			case 1 : reponse = ajouterLivre(&B);
+			case 1 : printf("\n");
+					 reponse = ajouterLivre(&B);
 					 if (reponse==1) printf(" ajout reussi !!");
 					 else printf("impossible d ajouter (bibliotheque pleine)");
 					 break;
 					 
-			case 2 : reponse=afficherBibliotheque(&B);
+			case 2 : printf("\n");
+					 reponse=afficherBibliotheque(&B);
 					 if (reponse==0)	
 					 printf("La bibliotheque est vide");
 					 break;
 					
-			case 3 : lireChaine("quel titre ?\n", titre, MAX_TITRE );
+			case 3 : printf("\n");
+					 lireChaine("quel titre ?\n", titre, MAX_TITRE );
 					 a=rechercherLivre(&B,titre);
 					 if(a==0)printf("le livre n'y est pas\n");
 					 else printf("le livre est présent %d fois \n",a);
 					 break;
 					
-			case 4 : lireChaine("quel auteur ?\n", auteur, K_MaxAut );
+			case 4 : printf("\n");
+					 lireChaine("quel auteur ?\n", auteur, K_MaxAut );
 					 AffRechAuteur(&B,auteur);
 					 break;
 					
-			case 5 : lireChaine("quel auteur souhaitez-vous supprimer ?\n", livre.auteur, K_MaxAut );
+			case 5 : printf("\n");
+					 lireChaine("quel auteur souhaitez-vous supprimer ?\n", livre.auteur, K_MaxAut );
 					 lireChaine("quel titre de cet auteur souhaitez-vous supprimer ?\n", livre.titre, MAX_TITRE );
 					 a=SuppLivre(&B,&livre);
 					 if(a==0)printf("le livre n'y est pas\n");
 					 else printf("le livre est bien supprimé\n");
 					 break;	
 					 
-			case 6 : lireChaine("quel titre souhaitez vous emprunter ?", livre.titre, MAX_TITRE);	
+			case 6 : printf("\n");
+					 lireChaine("quel titre souhaitez vous emprunter ?", livre.titre, MAX_TITRE);	
 					 lireChaine("quel est son code ?", livre.code, MAX_CODE);
-					 printf("quel est votre nom ?");
-					 lire(nom, MAX);	
-					 printf("nom:%s",nom);
-					 afficherChaine("1:",livre.emprunteur);
-					 
-					 a=Emprunter(&B,&livre,nom);
-					 printf("valeur: %d\n",a);
-					 if(a==0)printf("le livre est déjà emprunté \n");
-					 else printf("le livre est bien emprunté para vous \n");
+					 printf("quel est votre nom ?\n");
+					 lire(emp.nomemprunteur, MAX);	
+					 a=Emprunter(&B,&livre,&emp);
+					 if(a==0)printf("le livre est déjà emprunté ou il n'existe pas \n");
+					 else printf("vous avez bein emprunté ce livre \n");
 					 break;	
 					 
-		    case 7 : lireChaine("quel titre souhaitez vous rendre ?", livre.titre, MAX_TITRE);	
+		    case 7 : printf("\n");
+					 lireChaine("quel titre souhaitez vous rendre ?", livre.titre, MAX_TITRE);	
 					 lireChaine("quel est son code ?", livre.code, MAX_CODE);
-					 printf("quel est votre nom ?");
-					
-					 lire(nom, MAX);	
-					 printf("%s",nom);
-					 		
-					 a=RendreLivre(&B,&livre,&nom);
-					 printf("%d",a);
+					 printf("quel est votre nom ?\n");
+					 lire(emp.nomemprunteur, MAX);	
+					 a=RendreLivre(&B,&livre,&emp);
 					 if(a==0)printf("le livre n'est pas à vous\n");
 					 else printf("le livre est bien rendu merci \n");
-					 break;			
-			
+					 break;	
+
+			case 8 : printf("\n");
+					 TriTitre(&B);
+					 printf("voici la bibliotheque triée par titre :\n");
+					 afficherBibliotheque(&B);
+					 break;	
+
+			case 9 : printf("\n");
+					 TriAut(&B);
+					 printf("voici la bibliotheque triée par auteur :\n");
+					 afficherBibliotheque(&B);	
+					 break;	
+
+			case 10 : printf("\n");
+					  TriAnnee(&B);
+					  printf("voici la bibliotheque triée par année :\n");
+					  afficherBibliotheque(&B);
+					  break;	
+
+			case 11 : printf("\n");
+					  printf("voici la liste des livres disponibles :\n");
+					  listerLivreDispo(&B);
+					  break;	
+
+			case 12 : printf("\n");	
+					  printf("voici la liste des livres en retard :\n");
+					  listerRetard(&B) ;
+					  break;
+
+			case 13 : printf("\n");
+					  printf("quel est votre nom ?\n");
+					  lire(emp.nomemprunteur, MAX);	
+					  a=NbLivresEmpruntes(&B,&emp);
+					  printf("Vous avez emprunté %d livre(s) \n",a);
+					  printf("\n");	
+					  break;
+					
 			
 		}
 		sauvegarde(&B);
@@ -122,4 +156,3 @@ int main()
 	return 0;
 
 }
-
